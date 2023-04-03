@@ -1,0 +1,61 @@
+{% extends 'app_service/base.html' %}
+
+
+{% block content %}
+<br><br>
+<form action="{% url 'links' %}" method="get">
+    <div class="parent-div">
+        <h5>Sort by</h5> {{ form.filters }} <input type="submit" value="Submit">
+    </div>
+</form>
+<form action="{% url 'links' %}" method="get">
+  <input name="domain_name" type="text" placeholder="Search..."> <button type="submit" class="btn btn-secondary btn-sm">Find</button>
+</form>
+
+<h3 align="center" style="color:Black"> Links </h3>
+<br>
+    <div class="parent-div">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Link Code</th>
+                <th scope="col">Protocol</th>
+                <th scope="col">Domain</th>
+                <th scope="col">Domain_zone</th>
+                <th scope="col">Path</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for link in links %}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ link.link_code }}</td>
+                <td>{{ link.protocol }}</td>
+                <td>{{ link.domain }}</td>
+                <td>{{ link.domain_zone }}</td>
+                <td>{{ link.path }}</td>
+                <td><a href="{% url 'link_delete' link.id %}">
+                    <button type="button" class="btn btn-primary btn-sm">Delete</button>
+                </a></td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+<br><br>
+    <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-center">
+        <li class="page-item"><a class="page-link" href="{% if page_obj.has_previous %} ?page={{ page_obj.previous_page_number }} {% else %} # {% endif %} ">Previous</a></li>
+          {% for num in page_obj.paginator.page_range %}
+            <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+          {% endfor %}
+          <li class="page-item"><a class="page-link" href="{% if page_obj.has_next %} ?page={{ page_obj.next_page_number }} {% else %} # {% endif %}">Next</a></li>
+      </ul>
+    </nav>
+<script>
+    $(document).ready(function() {
+    $('.js-example-basic-multiple').select2();
+    });
+</script>
+{% endblock %}
