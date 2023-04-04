@@ -4,30 +4,30 @@
 # Результат замера времени выводит в консоль.
 # Ожидаемое время не должно превышать 10 секунд.
 
+import aiohttp
 import asyncio
 import time
 
-import aiohttp
-import requests
 
-
-def get_response_synchronously():
-    """Synchronously"""
+def get_tasks(session):
+    tasks = []  # список запросів
     url = 'http://httpbin.org/delay/3'
-    start = time.time()
-    for i in range(1, 5):
-        print(i)
-        requests.get(url=url)
-    end = time.time()
-    print(f'Time of function is {end - start}')
+    for i in range(1, 100):
+        tasks.append(session.get(url=url, ssl=False))  # добавляємо в список запроси (таски)
+    return tasks
 
 
-get_response_synchronously()
+async def request_asynchronious():  # робимо корутину( тобто асинхронну функцію, задачу)
+    async with aiohttp.ClientSession() as session:  # сессія для того щоб відправляти запроси
+        tasks = get_tasks(session)  # приймаємо список запросів
+        responses = await asyncio.gather(*tasks)  # тут список наших запросів які ми відсилаємо
+        for response in responses:
+            print(response)
 
 
-async def get_response_asynchronously():
-    url = 'http://httpbin.org/delay/3'
+start = time.time()
+asyncio.run(request_asynchronious())  # event loop
+end = time.time()
+print(start - end)
 
-    async with aiohttp.ClientSession() as session:
-        response = session.get(url=url)
 
