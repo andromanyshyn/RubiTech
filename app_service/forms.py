@@ -1,4 +1,5 @@
 from django import forms
+from django.db import ProgrammingError
 
 from .models import *
 
@@ -10,12 +11,15 @@ class LinkCreateForm(forms.Form):
 
 
 class FilterDomainZone(forms.Form):
-    domain_zones = [link.domain_zone for link in Link.objects.all()]
-    CHOICES = [tuple([i, i]) for i in domain_zones]
+    try:
+        domain_zones = [link.domain_zone for link in Link.objects.all()]
+        CHOICES = [tuple([i, i]) for i in domain_zones]
 
-    filters = forms.MultipleChoiceField(choices=CHOICES, required=False,
-                                        widget=forms.SelectMultiple(attrs={
-                                            'class': 'js-example-basic-multiple', }))
+        filters = forms.MultipleChoiceField(choices=CHOICES, required=False,
+                                            widget=forms.SelectMultiple(attrs={
+                                                'class': 'js-example-basic-multiple', }))
+    except:
+        ProgrammingError(print('Make Migrations'))
 
 
 class LinkImportForm(forms.ModelForm):
