@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-52lm6u7u7)$nsu$-ifcn0&e^vemzy*6(i#(huz-$uen==+xa*l
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -77,11 +77,11 @@ WSGI_APPLICATION = 'RubiTech.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'rubitech_database',
+        'NAME': 'postgres',
         'USER': 'postgres',
-        'PASSWORD': '9517535',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'PASSWORD': 'postgres',
+        'HOST': 'db',
+        'PORT': 5432,
     }
 }
 
