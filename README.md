@@ -1,36 +1,36 @@
 
-## Тестовое задание №1 - реализация функций и классов (ориентировочной время выполнения - 4 часа):
-A. Функция принимает в качестве аргумента набор ссылок. Ссылки имеют формат ссылок на проекты на гитхабе (например: https://github.com/miguelgrinberg/Flask-SocketIO, https://github.com/miguelgrinberg/Flask-SocketIO.git). Функция должна обработать полученные ссылки и вывести в консоль названия самих гит-проектов. Стоит рассмотреть защиту от ссылок "вне формата".
+## Test Assignment #1 - Implementation of Functions and Classes (approximate time - 4 hours):
+A. The function takes a set of links as an argument. The links are in the format of links to projects on the githab (for example: https://github.com/miguelgrinberg/Flask-SocketIO, https://github.com/miguelgrinberg/Flask-SocketIO.git). The function should parse the received links and display the names of the git projects themselves in the console. It's worth considering protecting against links "out of format".
 
-B. Реализовать функцию, принимающую два списка и возвращающую словарь (ключ из первого списка, значение из второго), упорядоченный по ключам. Результат вывести в консоль. Длина первого списка не должна быть равна длине второго. Результат вывести в консоль.
+B. Implement a function that takes two lists and returns a dictionary (key from the first list, value from the second) ordered by keys. Output the result to the console. The length of the first list should not be equal to the length of the second list. Output the result to the console.
 
-C. Реализовать функцию с помощью методов map и lambda. Функция принимает список элементов (состоящий из строк и цифр), возвращает новый список, с условием - если элемент списка был строкой, в начало строки нужно добавить текст "abc_", в конец строки - "_cba". Если элемент был int - то его значение нужно возвести в квадрат. Результат вывести в консоль.
+C. Implement the function using the map and lambda methods. The function accepts a list of elements (consisting of strings and digits) and returns a new list, with the condition that if the list element was a string then the text "abc_" should be added to the beginning of the string and "_cba" to the end of the string. If the item was int - then its value must be squared. The result should be printed to the console.
 
-D. Реализовать функцию, которая замеряет время на исполнение100 запросов к адресу: http://httpbin.org/delay/3. Запросы должны выполняться асинхронно. Допускается написание вспомогательных функций и использование сторонних библиотек. Результат замера времени выводит в консоль. Ожидаемое время не должно превышать 10 секунд.
+D. Implement a function that measures the time to execute 100 queries to the address: http://httpbin.org/delay/3. The queries must be executed asynchronously. It is allowed to write auxiliary functions and use third-party libraries. The result of time measurement is printed to the console. The expected time should not exceed 10 seconds.
 
-E. Написать класс, принимающий на вход текст. Один метод класса должен выводить в консоль самое длинное слово в тексте. Второй метод - самое часто встречающееся слово. Третий метод выводит количество спецсимволов в тексте (точки, запятые и так далее). Четвертый метод выводит все палиндромы через запятую.
+E. Write a class that accepts text. One method of the class should print to the console the longest word in the text. The second method should output the most frequent word. The third method prints the number of special characters in the text (dots, commas, and so on). The fourth method outputs all palindromes separated by commas.
 
-F. Написать декоратор к предыдущему классу, который будет выводить в консоль время выполнения каждого метода. Результат выполнения задания должен быть оформлен в виде файла с кодом.
+F.  Write a decorator to the previous class that will output each method's execution time to the console. The result of the assignment must be written in the form of a code file.
 
-## Тестовое задание №2 - написать приложение на Django (ориентировочное время выполнения - 24 часа).
-Описание приложения: приложение разрабатывается с помощью фреймворка Django, работает с базой данных SQLite, имеет API и веб интерфейсы. 
+## Test Case #2 - write an application in Django (approximate time: 24 hours).
+Application description: The application is developed with Django framework, works with SQLite database, has API and web interfaces.
 
-Цель приложения: каталогизация и структурирование информации по различным веб-ресурсам.
+The purpose of the application: the cataloging and structuring of the information on various Web resources.
 
-1.	API-интерфейс. Приложение принимает GET и POST запросы:
-  a.	POST запрос №1 должен содержать в теле ссылку на какой-либо веб-ресурс. Приложение должно обработать полученную ссылку, разложить ее на протокол, домен, доменную зону и путь. Если в ссылке присутствуют параметры - преобразовать их в словарь. Полученные данные нужно сохранить в таблице базы данных, присвоив уникальный идентификационный номер (uuid). Возвращать пользователю ответ в формате json с разложенными данными и статусом обработки. Если пользователь прислал не ссылку - сообщать ему об этом в ответе.
+1.	API interface. The application accepts GET and POST requests:
+  a.	POST request #1 must contain a link to a web resource in its body. The application must process the received link and decompose it into a protocol, domain, domain zone and path. If the link contains parameters, convert them into a dictionary. The resulting data must be stored in a database table and assigned a unique identification number (uuid). Return the user a response in json format with decomposed data and processing status. If the user did not send the link - inform them about it in the response.
   
-  b.	POST запрос №2 должен содержать в себе csv файл с перечнем ссылок (формат файла - каждая новая строка одна ссылка). Все ссылки нужно обрабатывать по образцу POST запроса №1, а также обработка должна выполняться в фоновом режиме. В ответ добавить общий статус обработки файла (количество обрабатываемых ссылок, количество ошибок, количество ссылок, направленных на сохранение в БД).
+  b.	POST request #2 must contain a csv file with a list of links (file format - each new line - one link). All links must be processed according to the sample POST request #1, and processing must be performed in the background. In response, add the overall status of file processing (number of links processed, number of errors, number of links sent to save to the database).
   
-  c.	GET запрос должен выводить все сохраненные ссылки из БД (добавить возможность выборки по доменной зоне, id, uuid).
+  c.	GET request should output all saved links from the database (add the ability to select by domain zone, id, uuid).
+  
+## 2. Web interface. We need to implement 3 web pages for the application.
+Bootstrap5 framework should be used for page makeup. Try to keep the single concept of the pages design.
 
-## 2. Веб-интерфейс. Требуется реализовать 3 веб-страницы для приложения. 
-При вёрстке страниц требуется использовать фреймворк Bootstrap5. Постараться выдержать единый концепт оформления страниц.
+a.	Page 1. Implement a web page that contains forms to add new web resources to the application. The forms should add web resources both piece by piece and by uploading a CSV file. The format of the CSV file is the same as for the API interface.
 
-a.	Страница 1. Реализовать веб-страницу, содержащую формы для добавления в приложение новых веб-ресурсов. Формы должны добавлять веб-ресурсы как поштучно, так и загрузкой CSV файла. Формат CSV файла тот же, что и для API интерфейса.
-
-b.	Страница 2. Реализовать веб-страницу с таблицей, отображающую все ссылки из базы данных с разбивкой на страницы (пагинация, по 10 элементов на страницу). Также веб-страница должна содержать элементы управления - поиск по доменному имени, возможность фильтрования по доменной зоне, а также удаление конкретного элемента из таблицы и базы данных соответственно.
+b.	Page 2. Implement a web page with a table displaying all links from the database broken down into pages (pagination, 10 items per page). The web page should also contain controls - search by domain name, ability to filter by domain zone, and remove a specific item from the table and database respectively.
 
 
-## 3. Дистрибуция и контейнеризация.
-Код приложения должен упаковываться в docker-контейнер и автоматически запускаться при старте контейнера.
+## 3. Distribution and Containerization.
+The application code should be packaged in a docker container and run automatically when the container starts up.
