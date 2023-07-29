@@ -10,12 +10,13 @@
 
 
 def get_projects_names(*args):
-    validate_links = [link for link in args if link.split('/')[2] == 'github.com']
-    project_names_list = [link.split('/')[-1] for link in validate_links]
-    for name in range(len(project_names_list)):
-        if '.' in project_names_list[name]:
-            project_names_list[name] = project_names_list[name].split('.')[0]
-        print(project_names_list[name])
+    validated_links = []
+    for link in args:
+        if link.startswith('https://github.com/'):
+            link = link.split('/')[-1]
+            link = link.replace('.git', '') if '.git' in link else link
+            validated_links.append(link)
+            print(link)
 
 
 get_projects_names('https://github.com/miguelgrinberg/Flask-SocketIO.git',
