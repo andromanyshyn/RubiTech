@@ -7,7 +7,7 @@
 
 def get_dict(lst1, lst2):
     if len(lst1) == len(lst2):
-        return 'The length of the first list should not be equal to the length of the second'
+        raise ValueError('The length of the first list should not be equal to the length of the second')
     d_dict = {key: value for key, value in zip(sorted(lst1), lst2)}
     return d_dict
 
