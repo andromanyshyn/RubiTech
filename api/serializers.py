@@ -1,38 +1,37 @@
+import uuid
+
 from rest_framework import serializers
 
 from app_service.models import Link
 
 
-class LinkSerializerGet(serializers.ModelSerializer):
+class LinkListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Link
         fields = '__all__'
 
-        extra_kwargs = {
-            'link_field': {'read': True},
-            'link_code': {'read_only': True},
-            'protocol': {'read_only': True},
-            'domain': {'read_only': True},
-            'domain_zone': {'read_only': True},
-            'path': {'read_only': True},
-        }
-
 
 class LinkSerializer(serializers.Serializer):
-    link = serializers.URLField(required=False)
-    csv_field = serializers.FileField(required=False)
+    link = serializers.URLField()
 
-    class Meta:
-        fields = (
-            'link',
-            'csv_field',
-        )
+    def save(self, **kwargs):
+        link_code = uuid.uuid4()
+        link = self.validated_data.get('link')
+        protocol = link.split(':')[0]
+        domain = link.split('//')[1].split('.')[0] if 'www' not in link.split('//')[1].split('.') else \
+            link.split('//')[1].split('.')[1]
+        domain_zone = link.split('//')[1].split('.')[1].split('/')[0] if 'www' not in link.split('//')[1].split(
+            '.') else link.split('//')[1].split('.')[-1].split('/')[0]
+        path = '/'.join(link.split('//')[1].split('/')[1:])
 
-        # extra_kwargs = {
-        #     'link_field': {'write_only': True},
-        #     'link_code': {'read_only': True},
-        #     'protocol': {'read_only': True},
-        #     'domain': {'read_only': True},
-        #     'domain_zone': {'read_only': True},
-        #     'path': {'read_only': True},
-        # }
+        Link.objects.create(link_code=uuid.uuid4(), protocol=protocol, domain=domain,
+                            domain_zone=domain_zone, path=path)
+
+        link_data = {
+            'code': link_code,
+            'protocol': protocol,
+            'domain': domain,
+            'domain_zone': domain_zone,
+            'path': path,
+        }
+        return link_data
