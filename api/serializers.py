@@ -35,3 +35,7 @@ class LinkSerializer(serializers.Serializer):
             'path': path,
         }
         return link_data
+
+
+class FileSerializer(serializers.Serializer):
+    file = serializers.FileField()

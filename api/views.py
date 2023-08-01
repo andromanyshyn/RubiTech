@@ -1,14 +1,12 @@
-import uuid
-
-from django.forms.models import model_to_dict
 from rest_framework import status
-from rest_framework.generics import CreateAPIView, ListAPIView, ListCreateAPIView
+from rest_framework.generics import ListCreateAPIView
 from rest_framework.response import Response
-from rest_framework.status import HTTP_201_CREATED
+from rest_framework.views import APIView
+from api.tasks import download
 
-from app_service.models import Link, LinkImport
+from app_service.models import Link
 
-from api.serializers import LinkSerializer, LinkListSerializer
+from api.serializers import LinkSerializer, LinkListSerializer, FileSerializer
 
 
 class LinkAPIView(ListCreateAPIView):
@@ -23,21 +21,17 @@ class LinkAPIView(ListCreateAPIView):
         response = serializer.save()
         return Response(response, status=status.HTTP_201_CREATED)
 
-        # else:
-        #     csv_file = serializer.validated_data['csv_field']
-        #     file_data = csv_file.read().decode('utf-8')  # open file
-        #     for link in file_data.split():
-        #         Link.objects.create(link_code=uuid.uuid4(),
-        #                             protocol=link.split(':')[0],
-        #                             domain=link.split('//')[1].split('.')[0] if 'www' not in link.split('//')[
-        #                                 1].split('.') else link.split('//')[1].split('.')[1],
-        #                             domain_zone=link.split('//')[1].split('.')[1].split('/')[0] if 'www' not in
-        #                                                                                            link.split('//')[
-        #                                                                                                1].split(
-        #                                                                                                '.') else
-        #                             link.split('//')[1].split('.')[-1].split('/')[0],
-        #                             path='/'.join(link.split('//')[1].split('/')[1:]))
-        #     count_links = len([i for i in file_data.split()])
-        #     last_created_objects = Link.objects.order_by('-id')[:count_links].values()  # get last five objects
-        #
-        #     return Response({'links': list(last_created_objects)})
+
+class FileAPIView(APIView):
+    @staticmethod
+    def post(request):
+        serializer = FileSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        file = serializer.validated_data['file'].read().decode('utf-8')
+        try:
+            download.delay(file)
+        except Exception as error:
+            return Response({'status': status.HTTP_500_INTERNAL_SERVER_ERROR, "error": error})
+        return Response(
+            {'status': status.HTTP_201_CREATED, 'info': "in process"}
+        )
