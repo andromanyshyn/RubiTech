@@ -22,10 +22,24 @@ class LinkSerializer(serializers.Serializer):
             link.split('//')[1].split('.')[1]
         domain_zone = link.split('//')[1].split('.')[1].split('/')[0] if 'www' not in link.split('//')[1].split(
             '.') else link.split('//')[1].split('.')[-1].split('/')[0]
-        path = '/'.join(link.split('//')[1].split('/')[1:])
+        path = ''.join(link.split(domain_zone)[1].split('?')[0]) if '?' in link else ''.join(link.split(domain_zone)[1])
+
+        get_parameters = link.split('?')[1] if '?' in link else ''
+        parameters = {}
+        if get_parameters:
+            if '&' in get_parameters:
+                param_pairs = get_parameters.split("&")
+                for pair in param_pairs:
+                    key_value = pair.split("=")
+                    key, value = key_value
+                    parameters[key] = value
+            else:
+                key_value = get_parameters.split("=")
+                key, value = key_value
+                parameters[key] = value
 
         Link.objects.create(link_code=uuid.uuid4(), protocol=protocol, domain=domain,
-                            domain_zone=domain_zone, path=path)
+                            domain_zone=domain_zone, path=path, parameters=parameters)
 
         link_data = {
             'code': link_code,
@@ -33,6 +47,7 @@ class LinkSerializer(serializers.Serializer):
             'domain': domain,
             'domain_zone': domain_zone,
             'path': path,
+            'parameters': parameters
         }
         return link_data
 
