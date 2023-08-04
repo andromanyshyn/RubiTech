@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Link(models.Model):
-    link_code = models.UUIDField(unique=True, null=False)
+    link_code = models.UUIDField(unique=True, null=True, blank=True)
     protocol = models.CharField(max_length=10)
     domain = models.CharField(max_length=32)
     domain_zone = models.CharField(max_length=10)

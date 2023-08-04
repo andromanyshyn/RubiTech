@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     "rest_framework",
     "app_service",
     "api",
+
+    "django_filters",
 ]
 
 MIDDLEWARE = [
@@ -132,7 +134,12 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-
 # celery
 CELERY_BROKER_URL = env("CELERY_BROKER_URL")
 CELERY_RESULT_BACKEND = env("CELERY_RESULT_BACKEND")
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+    ),
+}

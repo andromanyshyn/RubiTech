@@ -5,12 +5,14 @@ from rest_framework.views import APIView
 from api.tasks import download
 
 from app_service.models import Link
+from api.filters import LinkFilter
 
 from api.serializers import LinkSerializer, LinkListSerializer, FileSerializer
 
 
 class LinkAPIView(ListCreateAPIView):
     queryset = Link.objects.all()
+    filterset_class = LinkFilter
 
     def get_serializer_class(self):
         return LinkListSerializer if self.request.method == 'GET' else LinkSerializer
