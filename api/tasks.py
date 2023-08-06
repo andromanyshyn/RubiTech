@@ -1,5 +1,7 @@
-from celery import shared_task
 import uuid
+
+from celery import shared_task
+
 # from app_service.models import Link
 from api.utils import create_link
 
