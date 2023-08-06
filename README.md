@@ -13,18 +13,28 @@ E. Write a class that accepts text. One method of the class should print to the 
 F.  Write a decorator to the previous class that will output each method's execution time to the console. The result of the assignment must be written in the form of a code file.
 
 ## Test Case #2 - write an application in Django (approximate time: 24 hours).
-Application description: The application is developed with Django framework, works with SQLite database, has API and web interfaces.
+Application description: The application is developed with Django framework, works with PostgreSQL database, has API and web interfaces.
 
 The purpose of the application: the cataloging and structuring of the information on various Web resources.
 
-1.	API interface. The application accepts GET and POST requests:
+## 1.	API interface. The application accepts GET and POST requests:
+
   a.	POST request #1 must contain a link to a web resource in its body. The application must process the received link and decompose it into a protocol, domain, domain zone and path. If the link contains parameters, convert them into a dictionary. The resulting data must be stored in a database table and assigned a unique identification number (uuid). Return the user a response in json format with decomposed data and processing status. If the user did not send the link - inform them about it in the response.
   
+
   b.	POST request #2 must contain a csv file with a list of links (file format - each new line - one link). All links must be processed according to the sample POST request #1, and processing must be performed in the background. In response, add the overall status of file processing (number of links processed, number of errors, number of links sent to save to the database).
   
   c.	GET request should output all saved links from the database (add the ability to select by domain zone, id, uuid).
-  
-## 2. Web interface. We need to implement 3 web pages for the application.
+
+  d.	GET request #2 returns the last 20 lines of the log (see step 2).
+
+
+## 2. Logging. 
+
+The application must log its work with log file rotation when a certain file size (1 megabyte) is reached. It is necessary to log all received requests and responses of the application, as well as information about adding a new record to the database
+
+
+## 3. Web interface. We need to implement 3 web pages for the application.
 Bootstrap5 framework should be used for page makeup. Try to keep the single concept of the pages design.
 
 a.	Page 1. Implement a web page that contains forms to add new web resources to the application. The forms should add web resources both piece by piece and by uploading a CSV file. The format of the CSV file is the same as for the API interface.
