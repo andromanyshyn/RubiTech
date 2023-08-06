@@ -41,6 +41,9 @@ a.	Page 1. Implement a web page that contains forms to add new web resources to 
 
 b.	Page 2. Implement a web page with a table displaying all links from the database broken down into pages (pagination, 10 items per page). The web page should also contain controls - search by domain name, ability to filter by domain zone, and remove a specific item from the table and database respectively.
 
+## 4. Authorization. 
 
-## 3. Distribution and Containerization.
+Add to the application user authorization by tokens, add necessary endpoints and templates for authorization and session completion, functionality described in items 1-3 make available only for authorized users. Log authorization, session termination and unauthorized access attempts.
+
+## 5. Distribution and Containerization.
 The application code should be packaged in a docker container and run automatically when the container starts up.
