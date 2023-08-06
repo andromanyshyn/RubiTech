@@ -10,6 +10,7 @@ from api.filters import LinkFilter
 from api.serializers import FileSerializer, LinkListSerializer, LinkSerializer
 from api.tasks import download
 from app_service.models import Link
+from rest_framework.permissions import IsAdminUser
 
 logger = logging.getLogger(__name__)
 
@@ -55,6 +56,8 @@ class FileAPIView(APIView):
 
 
 class LogsAPIView(APIView):
+    permission_classes = [IsAdminUser]
+
     @staticmethod
     def get(request):
         logger.info(f"Received GET request: {request}")

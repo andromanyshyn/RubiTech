@@ -1,9 +1,9 @@
 from django.urls import path
 
-from api import views
+from api.views import LinkAPIView, FileAPIView, LogsAPIView
 
 urlpatterns = [
-    path("link/", views.LinkAPIView.as_view(), name="api_links"),
-    path("file/", views.FileAPIView.as_view(), name="api_file"),
-    path("logs/", views.LogsAPIView.as_view(), name="logs"),
+    path("link/", LinkAPIView.as_view(), name="api_links"),
+    path("file/", FileAPIView.as_view(), name="api_file"),
+    path("logs/", LogsAPIView.as_view(), name="logs"),
 ]
