@@ -1,5 +1,8 @@
 import uuid
 from app_service.models import Link
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def create_link(link, return_data=True):
@@ -25,8 +28,12 @@ def create_link(link, return_data=True):
             key, value = key_value
             parameters[key] = value
 
-    Link.objects.create(link_code=uuid.uuid4(), protocol=protocol, domain=domain,
-                        domain_zone=domain_zone, path=path, parameters=parameters)
+    try:
+        link_obj = Link.objects.create(link_code=uuid.uuid4(), protocol=protocol, domain=domain,
+                                       domain_zone=domain_zone, path=path, parameters=parameters)
+        logger.info(f"Object of Link has been created | ID - {link_obj.id}")
+    except Exception as error:
+        print(f"[ERROR]: {error}")
 
     if return_data:
         link_data = {

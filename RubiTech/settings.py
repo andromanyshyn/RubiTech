@@ -57,22 +57,27 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+LOG_FILE = env("LOG_FILE")
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
-    "handlers": {
-        "console": {
-            "class": "logging.StreamHandler",
+    "formatters": {
+        "verbose": {
+            "format": "{levelname} {asctime} {module} {message}",
+            "style": "{",
         },
+    },
+    "handlers": {
         'file': {
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': 'information.log',
+            'filename': LOG_FILE,
+            "formatter": "verbose",
             'maxBytes': 1024 * 1024,  # 1 MEGABYTE
             'backupCount': 5,
         },
     },
     "loggers": {
-        "django": {
+        "api": {
             "handlers": ["file"],
             "level": "INFO",
             "propagate": True,
