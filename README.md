@@ -29,7 +29,9 @@ The purpose of the application: the cataloging and structuring of the informatio
   d.	GET request #2 returns the last 20 lines of the log (see step 2).
 
 
-## 2. Logging. The application must log its work with log file rotation when a certain file size (1 megabyte) is reached. It is necessary to log all received requests and responses of the application, as well as information about adding a new record to the database
+## 2. Logging. 
+
+The application must log its work with log file rotation when a certain file size (1 megabyte) is reached. It is necessary to log all received requests and responses of the application, as well as information about adding a new record to the database
 
 
 ## 3. Web interface. We need to implement 3 web pages for the application.
