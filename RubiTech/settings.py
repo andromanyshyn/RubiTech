@@ -41,8 +41,11 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "rest_framework.authtoken",
+
     "app_service",
     "api",
+    "users",
 
     "django_filters",
 ]
@@ -78,6 +81,11 @@ LOGGING = {
     },
     "loggers": {
         "api": {
+            "handlers": ["file"],
+            "level": "INFO",
+            "propagate": True,
+        },
+        "users": {
             "handlers": ["file"],
             "level": "INFO",
             "propagate": True,
@@ -166,7 +174,7 @@ CELERY_BROKER_URL = env("CELERY_BROKER_URL")
 CELERY_RESULT_BACKEND = env("CELERY_RESULT_BACKEND")
 
 REST_FRAMEWORK = {
-    'DEFAULT_FILTER_BACKENDS': (
-        'django_filters.rest_framework.DjangoFilterBackend',
-    ),
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
+    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticated',),
+    'DEFAULT_AUTHENTICATION_CLASSES': ('users.auth.BearerTokenAuthentication',),
 }
